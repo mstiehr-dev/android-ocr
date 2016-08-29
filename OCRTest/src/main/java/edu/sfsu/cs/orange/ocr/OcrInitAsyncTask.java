@@ -32,6 +32,7 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.xeustechnologies.jtar.TarEntry;
 import org.xeustechnologies.jtar.TarInputStream;
 
@@ -48,6 +49,9 @@ import android.util.Log;
  */
 final class OcrInitAsyncTask extends AsyncTask<String, String, Boolean> {
   private static final String TAG = OcrInitAsyncTask.class.getSimpleName();
+
+  File targetDir;
+  File targetDirTess;
 
   /** Suffixes of required data files for Cube. */
   private static final String[] CUBE_DATA_FILES = {
@@ -122,6 +126,8 @@ final class OcrInitAsyncTask extends AsyncTask<String, String, Boolean> {
    *          [0] Pathname for the directory for storing language data files to the SD card
    */
   protected Boolean doInBackground(String... params) {
+    targetDir = new File(params[0]);
+    targetDirTess = new File(params[0] + "/tesseract/");
     // Check whether we need Cube data or Tesseract data.
     // Example Cube data filename: "tesseract-ocr-3.01.eng.tar"
     // Example Tesseract data filename: "eng.traineddata"
@@ -241,7 +247,8 @@ final class OcrInitAsyncTask extends AsyncTask<String, String, Boolean> {
         for (String filename : badFiles) {
           File file = new File(tessdataDir, filename);
           if (file.exists()) {
-            file.delete();
+            //file.delete();
+            Log.d(TAG, "doInBackground: file did exist - not gonna delete it this time ");
           }
         }
         
@@ -294,7 +301,7 @@ final class OcrInitAsyncTask extends AsyncTask<String, String, Boolean> {
     }
 
     // Initialize the OCR engine
-    if (baseApi.init(destinationDirBase + File.separator, languageCode, ocrEngineMode)) {
+    if (baseApi.init(destinationDirBase + File.separator, languageCode, ocrEngineMode)) { // earlier written files do not exist at this stage o.O
       return installSuccess && osdInstallSuccess;
     }
     return false;
@@ -313,13 +320,13 @@ final class OcrInitAsyncTask extends AsyncTask<String, String, Boolean> {
       badFile = new File(tessdataDir.toString() + File.separator + languageCode + s);
       if (badFile.exists()) {
         Log.d(TAG, "Deleting existing file " + badFile.toString());
-        badFile.delete();
+        //badFile.delete();
       }
       badFile = new File(tessdataDir.toString() + File.separator + "tesseract-ocr-3.01." 
           + languageCode + ".tar");
       if (badFile.exists()) {
         Log.d(TAG, "Deleting existing file " + badFile.toString());
-        badFile.delete();
+        //badFile.delete();
       }
     }
   }
@@ -530,8 +537,8 @@ final class OcrInitAsyncTask extends AsyncTask<String, String, Boolean> {
       final int BUFFER = 8192;
       byte data[] = new byte[BUFFER];
       String pathName = entry.getName();
-      String fileName = pathName.substring(pathName.lastIndexOf('/'), pathName.length());
-      OutputStream outputStream = new FileOutputStream(destinationDir + fileName);
+      String fileName = pathName.substring(NumberUtils.max(pathName.lastIndexOf('/'),0), pathName.length());
+      OutputStream outputStream = new FileOutputStream(destinationDir + File.separator + fileName);
       BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
 
       Log.d(TAG, "Writing " + fileName.substring(1, fileName.length()) + "...");

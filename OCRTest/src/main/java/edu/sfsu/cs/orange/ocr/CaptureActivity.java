@@ -140,8 +140,9 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
   };
   
   /** Resource to use for data file downloads. */
-  static final String DOWNLOAD_BASE = "http://tesseract-ocr.googlecode.com/files/";
-  
+  //static final String DOWNLOAD_BASE = "http://tesseract-ocr.googlecode.com/files/";
+  static final String DOWNLOAD_BASE = "http://maltin.pisces.uberspace.de/public/";
+
   /** Download filename for orientation and script detection (OSD) data. */
   static final String OSD_FILENAME = "tesseract-ocr-3.01.osd.tar";
   
