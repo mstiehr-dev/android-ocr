@@ -1,19 +1,8 @@
 #android-ocr
 
-An experimental app for Android that performs optical character recognition (OCR) on images captured using the device camera.
+this is a fork of Robert Theis' implementation of tesseract on android: https://github.com/rmtheis/android-ocr
 
-Runs the Tesseract OCR engine using [a fork of Tesseract Tools for Android](https://github.com/rmtheis/tess-two).
-
-Most of the code making up the core structure of this project has been adapted from the ZXing Barcode Scanner. Along with Tesseract-OCR and Tesseract Tools for Android (tesseract-android-tools), several open source projects have been used in this project, including leptonica, google-api-translate-java, microsoft-translator-java-api, and jtar.
-
-## Requires
-
-* A Windows Azure Marketplace Client ID and Client Secret (for translation) - [Documentation](http://msdn.microsoft.com/en-us/library/hh454950.aspx)
-* A Google Translate API key (for translation) - [Documentation](https://code.google.com/apis/console/?api=translate)
-
-## Installing the APK
-
-The APK is available for download to an Android device from Android Market [here](https://market.android.com/details?id=edu.sfsu.cs.orange.ocr).
+I reuploaded the needed resources (trained data files), so the app starts now and is ready for reviewing.
 
 ## License
 
